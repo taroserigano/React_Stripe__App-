@@ -11,23 +11,7 @@ app.use(express.static("public"));
 app.use(express.json());
 
 app.post("/checkout", async (req, res) => {
-    /*
-    req.body.items
-    [
-        {
-            id: 1,
-            quantity: 3
-        }
-    ]
 
-    stripe wants
-    [
-        {
-            price: 1,
-            quantity: 3
-        }
-    ]
-    */
     console.log(req.body);
     const items = req.body.items;
     let lineItems = [];
@@ -46,7 +30,9 @@ app.post("/checkout", async (req, res) => {
         success_url: "http://localhost:3000/success",
         cancel_url: "http://localhost:3000/cancel"
     });
-
+    
+    // this will send URL to the front-end
+    // front-end will use this url to navigate to the Stripe's payment screen
     res.send(JSON.stringify({
         url: session.url
     }));
